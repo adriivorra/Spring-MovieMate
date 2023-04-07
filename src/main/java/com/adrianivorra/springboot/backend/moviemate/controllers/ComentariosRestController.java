@@ -1,5 +1,7 @@
 package com.adrianivorra.springboot.backend.moviemate.controllers;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,6 +92,7 @@ public class ComentariosRestController {
 		}
 		
 		try {
+			comentarioPelicula.setFechaCreacion(Timestamp.valueOf(LocalDateTime.now()));
 			nuevoComentarioPelicula = comentarioRepository.saveMovieComment(comentarioPelicula);
 		}catch (DataAccessException e) { //La base de datos esta apagada
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
@@ -165,6 +168,7 @@ public class ComentariosRestController {
 		}
 		
 		try {
+			comentarioSerie.setFechaCreacion(Timestamp.valueOf(LocalDateTime.now()));
 			nuevoComentarioSerie = comentarioRepository.saveTvShowComment(comentarioSerie);
 		}catch (DataAccessException e) { //La base de datos esta apagada
 			response.put("mensaje", "Error al realizar el insert en la base de datos");

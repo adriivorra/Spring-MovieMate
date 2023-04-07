@@ -200,5 +200,30 @@ public class UsuariosRestController {
 		}
 		return new ResponseEntity<List<ComentarioSerie>>(listaComentariosSerie, HttpStatus.OK);
 	}
+	
+	@GetMapping("/usuarios/{uid}/find")
+	public ResponseEntity<?> getUsersByUserPreference(@PathVariable String uid){
+		Usuario user = null;
+		List<Usuario> listaUsuarios = new ArrayList<>();
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			user = usuarioService.findUserById(uid);
+			if(user != null) {
+				listaUsuarios = usuarioService.findByDistance(Double.parseDouble(user.getLatitude()), 
+						Double.parseDouble(user.getLongitude()), user.getDistance_preference());				
+			}else {
+				response.put("error", "Comprueba que los campos uid o email no esten vacios");
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+			}
+
+		}catch (DataAccessException e) { //La base de datos esta apagada
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<List<Usuario>>(listaUsuarios, HttpStatus.OK);
+	}
+	
 
 }

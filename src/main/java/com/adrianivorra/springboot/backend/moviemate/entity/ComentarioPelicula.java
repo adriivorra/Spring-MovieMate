@@ -1,6 +1,10 @@
 package com.adrianivorra.springboot.backend.moviemate.entity;
 
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,14 +34,18 @@ public class ComentarioPelicula implements java.io.Serializable{
 
     @JoinColumn(name = "id_pelicula")
     private Integer idPelicula;
+    
+    @JoinColumn(name = "fecha_creacion")
+    private Timestamp fechaCreacion;
 
 
-	public ComentarioPelicula(Integer id, String texto, Usuario usuario, Integer idPelicula) {
+	public ComentarioPelicula(Integer id, String texto, Usuario usuario, Integer idPelicula, Timestamp fechaCreacion) {
 		super();
 		this.id = id;
 		this.texto = texto;
 		this.usuario = usuario;
 		this.idPelicula = idPelicula;
+		this.fechaCreacion = fechaCreacion;
 	}
 
 	public ComentarioPelicula() {
@@ -79,11 +87,21 @@ public class ComentarioPelicula implements java.io.Serializable{
 		this.idPelicula = idPelicula;
 	}
 
+	public Timestamp getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(Timestamp fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
 	@Override
 	public String toString() {
-		return "Comentario [id=" + id + ", texto=" + texto + ", usuario=" + usuario + ", idPelicula=" + idPelicula
-				+ "]";
+		return "ComentarioPelicula [id=" + id + ", texto=" + texto + ", usuario=" + usuario + ", idPelicula="
+				+ idPelicula + ", fechaCreacion=" + fechaCreacion + "]";
 	}
+
+
 
     
 }

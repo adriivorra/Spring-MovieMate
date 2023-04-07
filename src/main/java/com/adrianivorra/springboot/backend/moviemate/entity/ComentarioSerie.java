@@ -1,6 +1,8 @@
 package com.adrianivorra.springboot.backend.moviemate.entity;
 
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,14 +32,18 @@ public class ComentarioSerie implements java.io.Serializable{
 
     @JoinColumn(name = "id_serie")
     private Integer idSerie;
+    
+    @JoinColumn(name = "fecha_creacion")
+    private Timestamp fechaCreacion;
 
 
-	public ComentarioSerie(Integer id, String texto, Usuario usuario, Integer idSerie) {
+	public ComentarioSerie(Integer id, String texto, Usuario usuario, Integer idSerie, Timestamp fechaCreacion) {
 		super();
 		this.id = id;
 		this.texto = texto;
 		this.usuario = usuario;
 		this.idSerie = idSerie;
+		this.fechaCreacion = fechaCreacion;
 	}
 
 	public ComentarioSerie() {
@@ -81,11 +87,21 @@ public class ComentarioSerie implements java.io.Serializable{
 		this.idSerie = idSerie;
 	}
 
+	public Timestamp getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(Timestamp fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
 	@Override
 	public String toString() {
-		return "Comentario [id=" + id + ", texto=" + texto + ", usuario=" + usuario + ", idPelicula=" + idSerie
-				+ "]";
+		return "ComentarioSerie [id=" + id + ", texto=" + texto + ", usuario=" + usuario + ", idSerie=" + idSerie
+				+ ", fechaCreacion=" + fechaCreacion + "]";
 	}
+
+
 
     
 }

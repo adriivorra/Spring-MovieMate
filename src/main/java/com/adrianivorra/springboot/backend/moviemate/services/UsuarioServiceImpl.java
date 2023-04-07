@@ -40,6 +40,11 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		usuarioDao.delete(user);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<Usuario> findByDistance(Double latitude, Double longitude, Integer distancia){
+		return usuarioDao.buscarPorDistancia(latitude, longitude, longitude);
+	}
+	
 	
 
 }
