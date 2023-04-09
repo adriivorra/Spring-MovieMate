@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -202,16 +206,17 @@ public class UsuariosRestController {
 	}
 	
 	@GetMapping("/usuarios/{uid}/find")
-	public ResponseEntity<?> getUsersByUserPreference(@PathVariable String uid){
+	public ResponseEntity<?> getUsersByUserPreference(@PathVariable String uid, @RequestParam("page") int page){
 		Usuario user = null;
-		List<Usuario> listaUsuarios = new ArrayList<>();
+		Page<Usuario> pageUusarios = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
 			user = usuarioService.findUserById(uid);
 			if(user != null) {
-				listaUsuarios = usuarioService.findByDistance(Double.parseDouble(user.getLatitude()), 
-						Double.parseDouble(user.getLongitude()), user.getDistance_preference());				
+				Pageable pageable = PageRequest.of(page, 10);
+				pageUusarios = usuarioService.findByDistance(user.getLatitude(), 
+						user.getLongitude(), user.getDistance_preference(), user.getUid(), user.getAge_min_preference(), user.getAge_max_preference(), pageable);				
 			}else {
 				response.put("error", "Comprueba que los campos uid o email no esten vacios");
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
@@ -222,7 +227,7 @@ public class UsuariosRestController {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<List<Usuario>>(listaUsuarios, HttpStatus.OK);
+		return new ResponseEntity<Page<Usuario>>(pageUusarios, HttpStatus.OK);
 	}
 	
 

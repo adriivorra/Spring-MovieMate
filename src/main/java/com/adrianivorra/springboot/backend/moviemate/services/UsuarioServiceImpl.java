@@ -3,6 +3,8 @@ package com.adrianivorra.springboot.backend.moviemate.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,8 +43,8 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Usuario> findByDistance(Double latitude, Double longitude, Integer distancia){
-		return usuarioDao.buscarPorDistancia(latitude, longitude, longitude);
+	public Page<Usuario> findByDistance(Double latitude, Double longitude, Integer distancia, String uid, Integer age_min, Integer age_max, Pageable pageable){
+		return usuarioDao.buscarPorDistancia(latitude, longitude, distancia, uid, age_min, age_max, pageable);
 	}
 	
 	

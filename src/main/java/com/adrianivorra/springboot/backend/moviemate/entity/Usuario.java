@@ -31,12 +31,13 @@ public class Usuario implements java.io.Serializable {
 	private Integer[] idsTopMovies;
 	private Integer[] idsTopTvShows;
 	private Integer[] idsTopGenres;
-	private String latitude;
-	private String longitude;
+	private Double latitude;
+	private Double longitude;
 	private LocalDate birth_date;
 	private Integer distance_preference;
 	private Integer age_min_preference;
 	private Integer age_max_preference;
+	private Boolean public_profile;
 	
 
 	public Usuario() {
@@ -51,8 +52,8 @@ public class Usuario implements java.io.Serializable {
 			String description, Integer[] idsFavouritesMovies, Integer[] idsFavouritesTvShows,
 			Integer[] idsShowLaterMovies, Integer[] idsShowLaterTvShows, Integer[] idsProviders,
 			Integer[] idsTheathreMovies, Integer[] idsTopMovies, Integer[] idsTopTvShows,
-			Integer[] idsTopGenres, String latitude, String longitude, LocalDate birth_date, Integer disntace_preference, 
-			Integer age_min_preference, Integer age_max_preference)  {
+			Integer[] idsTopGenres, Double latitude, Double longitude, LocalDate birth_date, Integer disntace_preference, 
+			Integer age_min_preference, Integer age_max_preference, Boolean public_profile)  {
 		this.uid = uid;
 		this.name = name;
 		this.email = email;
@@ -73,6 +74,7 @@ public class Usuario implements java.io.Serializable {
 		this.distance_preference = disntace_preference;
 		this.age_min_preference = age_min_preference;
 		this.age_max_preference = age_max_preference;
+		this.public_profile = public_profile;
 	}
 
 	@Id
@@ -204,20 +206,20 @@ public class Usuario implements java.io.Serializable {
 	}
 
 	@Column(name = "latitude")
-	public String getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(String latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
 	@Column(name = "longitude")
-	public String getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(String longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
@@ -255,6 +257,14 @@ public class Usuario implements java.io.Serializable {
 
 	public void setBirth_date(LocalDate birth_date) {
 		this.birth_date = birth_date;
+	}
+
+	public Boolean getPublic_profile() {
+		return public_profile;
+	}
+
+	public void setPublic_profile(Boolean public_profile) {
+		this.public_profile = public_profile;
 	}
 
 
