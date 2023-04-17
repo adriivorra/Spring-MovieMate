@@ -49,10 +49,11 @@ public class LikeServiceImpl {
         }else {
 			return null;
 		}
-        
-
-        
-    
     }
+	
+	
+	public List<String> getUserMatches(String userId){
+		return likeRepository.findUserMatches(userId);
+	}
 
 }

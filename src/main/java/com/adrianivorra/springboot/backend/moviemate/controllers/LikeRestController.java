@@ -1,5 +1,6 @@
 package com.adrianivorra.springboot.backend.moviemate.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adrianivorra.springboot.backend.moviemate.entity.ComentarioPelicula;
 import com.adrianivorra.springboot.backend.moviemate.entity.Like;
 import com.adrianivorra.springboot.backend.moviemate.entity.Usuario;
 import com.adrianivorra.springboot.backend.moviemate.services.LikeServiceImpl;
@@ -61,5 +63,31 @@ public class LikeRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 	
-	
+	@GetMapping("/matches/{uid}")
+    public ResponseEntity<?> getUserMatches(@PathVariable String uid) {
+            
+        List<String> idsMatches = new ArrayList<>();
+        List<Usuario> matches = new ArrayList<>();
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			idsMatches = likeService.getUserMatches(uid);
+			for(int i = 0 ; i < idsMatches.size(); i++) {
+				matches.add(usuarioService.findUserById(idsMatches.get(i)));
+			}
+		}catch (DataAccessException e) { //La base de datos esta apagada
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		if(matches.size() == 0) {
+			response.put("mensaje", "No hay matches");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<List<Usuario>>(matches, HttpStatus.OK);
+		
+	}
+
 }

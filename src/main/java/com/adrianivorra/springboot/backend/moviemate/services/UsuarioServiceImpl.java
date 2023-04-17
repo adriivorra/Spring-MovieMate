@@ -46,6 +46,10 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	public Page<Usuario> findByDistance(Double latitude, Double longitude, Integer distancia, String uid, Integer age_min, Integer age_max, Pageable pageable){
 		return usuarioDao.buscarPorDistancia(latitude, longitude, distancia, uid, age_min, age_max, pageable);
 	}
+
+	public List<Usuario> findUsersByIds(List<String> idsMatches) {
+		return (List<Usuario>) usuarioDao.findAllById(idsMatches);
+	}
 	
 	
 
