@@ -216,7 +216,12 @@ public class UsuariosRestController {
 			if(user != null) {
 				Pageable pageable = PageRequest.of(page, 10);
 				pageUusarios = usuarioService.findByDistance(user.getLatitude(), 
-						user.getLongitude(), user.getDistance_preference(), user.getUid(), user.getAge_min_preference(), user.getAge_max_preference(), pageable);				
+						user.getLongitude(), user.getDistance_preference(), user.getUid(), user.getAge_min_preference(), user.getAge_max_preference(), pageable);		
+				   for (Usuario usuario : pageUusarios) {
+				        usuario.setAge(usuario.getAge());
+				        usuario.setDistance(calcularDistancia(user.getLatitude(), user.getLongitude(), usuario.getLatitude(), usuario.getLongitude()));
+				    }
+
 			}else {
 				response.put("error", "Comprueba que los campos uid o email no esten vacios");
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
@@ -229,6 +234,24 @@ public class UsuariosRestController {
 		}
 		return new ResponseEntity<Page<Usuario>>(pageUusarios, HttpStatus.OK);
 	}
+	
+	public static final double RADIO_TIERRA = 6371; // en kilómetros
+
+	public static double calcularDistancia(double latitud1, double longitud1, double latitud2, double longitud2) {
+	    double dLat = Math.toRadians(latitud2 - latitud1);
+	    double dLon = Math.toRadians(longitud2 - longitud1);
+
+	    double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+	            + Math.cos(Math.toRadians(latitud1)) * Math.cos(Math.toRadians(latitud2))
+	            * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+	    double distancia = RADIO_TIERRA * c;
+
+	    return distancia;
+	}
+
 	
 
 }

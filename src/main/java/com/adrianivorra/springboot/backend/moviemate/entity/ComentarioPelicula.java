@@ -30,10 +30,10 @@ public class ComentarioPelicula implements java.io.Serializable{
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @JoinColumn(name = "id_pelicula")
+    @Column(name = "id_pelicula")
     private Integer idPelicula;
     
-    @JoinColumn(name = "fecha_creacion")
+    @Column(name = "fecha_creacion")
     private Timestamp fechaCreacion;
 
 

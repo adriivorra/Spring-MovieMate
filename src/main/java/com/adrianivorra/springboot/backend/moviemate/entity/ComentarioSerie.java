@@ -30,10 +30,10 @@ public class ComentarioSerie implements java.io.Serializable{
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @JoinColumn(name = "id_serie")
+    @Column(name = "id_serie")
     private Integer idSerie;
     
-    @JoinColumn(name = "fecha_creacion")
+    @Column(name = "fecha_creacion")
     private Timestamp fechaCreacion;
 
 
