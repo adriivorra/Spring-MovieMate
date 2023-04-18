@@ -13,9 +13,9 @@
 	<name>Spring-MovieMate</name>
 	<description>Spring Api MovieMate</description>
 	<properties>
-	 	<maven.compiler.target>16</maven.compiler.target>
-    	<maven.compiler.source>16</maven.compiler.source>
-		<java.version>16</java.version>
+	 	<maven.compiler.target>11</maven.compiler.target>
+    	<maven.compiler.source>11</maven.compiler.source>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
