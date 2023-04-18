@@ -54,6 +54,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
+
+
 	</dependencies>
 
 	<build>
@@ -63,11 +67,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<plugin>
-				<groupId>com.heroku.sdk</groupId>
-				<artifactId>heroku-maven-plugin</artifactId>
-				<version>3.0.7</version>
-			</plugin>
 		</plugins>
 	</build>
 
